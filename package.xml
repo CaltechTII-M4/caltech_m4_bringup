@@ -9,6 +9,7 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>swarm_bt_server</depend>
+  <depend>swarm_behavior_trees</depend>
   <depend>swarm_launch_utils</depend>
   <depend>swarm_lifecycle_manager</depend>
   <depend>ground_local_planner</depend>
