@@ -26,7 +26,7 @@ def generate_launch_description():
 
     behaviour_trees_directory = get_package_share_directory("caltech_m4_bringup")
     bt_param_file_default = os.path.join(
-        behaviour_trees_directory, "params", "bt_params.yaml"
+        behaviour_trees_directory, "config", "bt_params.yaml"
     )
     default_bt_path = LaunchConfiguration(
         "bt_path",
