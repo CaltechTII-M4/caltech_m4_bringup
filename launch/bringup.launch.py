@@ -20,11 +20,11 @@ def generate_launch_description():
     # Declare GLP
     glp_dir = get_package_share_directory("glp_ros")
     glp_params = os.path.join(
-        glp_dir, "params", "precision_controller_params.yaml"
+        glp_dir, "config", "precision_controller_params.yaml"
     )
     glp_param_file = LaunchConfiguration("glp_params_file", default=glp_params)
 
-    behaviour_trees_directory = get_package_share_directory("swarm_behavior_trees")
+    behaviour_trees_directory = get_package_share_directory("caltech_m4_bringup")
     bt_param_file_default = os.path.join(
         behaviour_trees_directory, "params", "bt_params.yaml"
     )
@@ -33,7 +33,6 @@ def generate_launch_description():
         default=os.path.join(
             behaviour_trees_directory,
             "behavior_trees_xml",
-            "wip_trees",
             "caltech.xml",
         ),
     )

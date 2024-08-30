@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<root main_tree_to_execute="Main">
+    <BehaviorTree ID="Main">
+      <Sequence>
+        <Action ID="SetPoseToBlackboard" goal_pose="{ground_pose}" frame_id="Drone1/gps_origin" pose_x="20.0" pose_y="-4.0" pose_yaw="1.57"/>
+        <!-- <Action ID="GroundApproachPose" goal_pose="{ground_pose}"/> -->
+        <Action ID="GroundRotate" rotate_dist="3.14" min_rotational_vel="1.0" max_rotational_vel="20.0" rotational_acc_lim="12.0"/>
+        <Action ID="GroundTranslate" translate_speed="10.0" translate_dist="20.0"/>
+
+        <!-- <Action ID="Morph" morph_topic="command/setVehicleMode" morph_mode="uav" morph_timeout="5000"/>
+        <SubTree ID="Arm" __shared_blackboard="true"/>
+        <Action ID="TakeOff" __shared_blackboard="true"/>
+        <Action ID="SetPoseToBlackboard" goal_pose="{fly_pose}" frame_id="Drone1/gps_origin" pose_x="10.0" pose_y="10.0" pose_z="10.0"/>
+        <Action ID="FlyToPose" goal_pose="{fly_pose}" state_topic="status" set_pose_topic="command/setPose"/>
+        <Action ID="SetPoseToBlackboard" goal_pose="{fly_pose}" frame_id="Drone1/gps_origin" pose_x="0.0" pose_y="0.0" pose_z="10.0"/>
+        <Action ID="FlyToPose" goal_pose="{fly_pose}" state_topic="status" set_pose_topic="command/setPose"/>
+        <Action ID="Land" __shared_blackboard="true"/>
+        <Action ID="Morph" morph_topic="command/setVehicleMode" morph_mode="ugv" morph_timeout="5000"/> -->
+      </Sequence>
+    </BehaviorTree>
+
+    <BehaviorTree ID="Land">
+      <Sequence>
+        <Action ID="ControllerCommand" cmd="land"/>
+        <Fallback>
+            <RetryUntilSuccessful num_attempts="15">
+                <Sequence>
+                    <Action ID="Wait" duration_ms="3000"/>
+                    <Condition ID="ControllerState" state_to_match="offboard"/>
+                </Sequence>
+            </RetryUntilSuccessful>
+            <Sequence>
+                <Action ID="SetConnectToSwarm" connect="false"/>
+                <AlwaysFailure/>
+            </Sequence>
+        </Fallback>
+      </Sequence>
+    </BehaviorTree>
+
+    <BehaviorTree ID="Arm">
+      <Sequence>
+        <Action ID="ControllerCommand" cmd="arm"/>
+        <Fallback>
+            <RetryUntilSuccessful num_attempts="5">
+                <Sequence>
+                    <Action ID="Wait" duration_ms="3000"/>
+                    <Condition ID="ControllerState" state_to_match="armed"/>
+                </Sequence>
+            </RetryUntilSuccessful>
+            <Sequence>
+                <Action ID="SetConnectToSwarm" connect="false"/>
+                <AlwaysFailure/>
+            </Sequence>
+        </Fallback>
+      </Sequence>
+    </BehaviorTree>
+
+    <BehaviorTree ID="TakeOff">
+      <Sequence>
+        <Action ID="ControllerCommand" cmd="takeoff"/>
+        <Fallback>
+            <RetryUntilSuccessful num_attempts="10">
+                <Sequence>
+                    <Action ID="Wait" duration_ms="3000"/>
+                    <Condition ID="ControllerState" state_to_match="hovering"/>
+                </Sequence>
+            </RetryUntilSuccessful>
+            <Sequence>
+                <Action ID="SetConnectToSwarm" connect="false"/>
+                <AlwaysFailure/>
+            </Sequence>
+        </Fallback>
+      </Sequence>
+    </BehaviorTree>
+</root>
