@@ -5,7 +5,7 @@ project(caltech_m4_bringup CXX)
 find_package(ament_cmake REQUIRED)
 
 # Install the launch files
-install(DIRECTORY launch config
+install(DIRECTORY launch config behavior_trees_xml
   DESTINATION share/${PROJECT_NAME}/
 )
 

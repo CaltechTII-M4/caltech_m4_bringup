@@ -18,12 +18,6 @@ from swarm_launch_utils.substitutions import IfElseSubstitution
 
 def generate_launch_description():
     # Declare GLP
-    glp_dir = get_package_share_directory("glp_ros")
-    glp_params = os.path.join(
-        glp_dir, "config", "precision_controller_params.yaml"
-    )
-    glp_param_file = LaunchConfiguration("glp_params_file", default=glp_params)
-
     behaviour_trees_directory = get_package_share_directory("caltech_m4_bringup")
     bt_param_file_default = os.path.join(
         behaviour_trees_directory, "config", "bt_params.yaml"
@@ -37,6 +31,10 @@ def generate_launch_description():
         ),
     )
 
+    glp_params = os.path.join(
+        behaviour_trees_directory, "config", "precision_controller_params.yaml"
+    )
+    glp_param_file = LaunchConfiguration("glp_params_file", default=glp_params)
     bt_params_file = LaunchConfiguration(
         "bt_params_file", default=bt_param_file_default
     )
